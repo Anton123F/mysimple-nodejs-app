@@ -31,6 +31,17 @@ const tools = [
             },
             required: ["inputString"]
         }
+    },
+    {
+        name: "sayHello",
+        description: "Returns a constant greeting message.",
+        command: "/sayHello",
+        args: [],
+        inputSchema: {
+            type: "object",
+            properties: {},
+            required: []
+        }
     }
 ];
 
@@ -84,6 +95,15 @@ app.post("/reverseString", (req, res) => {
         content: reversedString
     });
 });
+
+// Handler for sayHello (no arguments, returns a constant value)
+app.post("/sayHello", (req, res) => {
+    console.log("sayHello function called");
+    res.json({
+        content: "MCP is awesome!"
+    });
+});
+
 
 // Endpoint for root (to confirm the server is live)
 app.get("/", (req, res) => {
