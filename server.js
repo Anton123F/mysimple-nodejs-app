@@ -1,57 +1,85 @@
-// server.js
 const express = require("express");
 const app = express();
 
 app.use(express.json());
 
+// Tools metadata (exposed to CodeMie via /bridge)
 const tools = [
     {
         name: "calculateSum",
         description: "Calculates the sum of two numbers.",
         command: "/calculateSum",
-        args: ["num1", "num2"]
+        args: ["num1", "num2"],
+        inputSchema: {
+            type: "object",
+            properties: {
+                num1: { type: "number" },
+                num2: { type: "number" }
+            },
+            required: ["num1", "num2"]
+        }
     },
     {
         name: "reverseString",
         description: "Reverses a given string.",
         command: "/reverseString",
-        args: ["inputString"]
+        args: ["inputString"],
+        inputSchema: {
+            type: "object",
+            properties: {
+                inputString: { type: "string" }
+            },
+            required: ["inputString"]
+        }
     }
 ];
 
+// Handler for /bridge endpoint
 app.post("/bridge", (req, res) => {
-    console.log("CodeMie requested MCP tools metadata.");
+    console.log("CodeMie is requesting MCP tools metadata.");
     res.json({ tools });
 });
 
+// Handler for calculateSum
 app.post("/calculateSum", (req, res) => {
     const { num1, num2 } = req.body;
 
+    // Validate inputs
     if (typeof num1 !== "number" || typeof num2 !== "number") {
         return res.status(400).json({ error: "Invalid input. num1 and num2 must be numbers." });
     }
 
     const result = num1 + num2;
     console.log(`Calculated sum: ${result}`);
-    res.json({ result, message: `The sum of ${num1} and ${num2} is ${result}. Enot Enot Enot` });
+    res.json({
+        result,
+        message: `The sum of ${num1} and ${num2} is ${result}.`
+    });
 });
 
+// Handler for reverseString
 app.post("/reverseString", (req, res) => {
     const { inputString } = req.body;
 
+    // Validate inputs
     if (typeof inputString !== "string") {
         return res.status(400).json({ error: "Invalid input. inputString must be a string." });
     }
 
     const reversedString = inputString.split("").reverse().join("");
     console.log(`Reversed string: ${reversedString}`);
-    res.json({ result: reversedString, message: `The reverse of "${inputString}" is "${reversedString}".` });
+    res.json({
+        result: reversedString,
+        message: `The reverse of "${inputString}" is "${reversedString}".`
+    });
 });
 
+// Endpoint for root (to confirm the server is live)
 app.get("/", (req, res) => {
     res.send("Hello! Your MCP server for CodeMie is up and running!");
 });
 
+// Start the server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`MCP server is running on http://localhost:${port}`);
