@@ -69,25 +69,19 @@ app.post("/reverseString", (req, res) => {
 
     const { inputString } = req.body;
 
-    // Validate inputs
     if (typeof inputString !== "string") {
         console.log(`Invalid input reverseString function`);
         return res.status(400).json({
-            content: {
-                error: "Invalid input. inputString must be a string."
-            }
+            content: "Invalid input. inputString must be a string."
         });
     }
 
     const reversedString = inputString.split("").reverse().join("");
     console.log(`Reversed string: ${reversedString}`);
-    
-    // Correctly formatted response
+
+    // Return string as content value
     res.json({
-        content: {
-            result: reversedString,
-            message: `The reverse of "${inputString}" is "${reversedString}".`
-        }
+        content: reversedString
     });
 });
 
