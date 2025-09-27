@@ -47,7 +47,7 @@ const tools = [
 
 // Handler for /bridge endpoint
 app.post("/bridge", (req, res) => {
-    console.log("CodeMie is requesting MCP tools metadata.");
+    console.log("CodeMie is requesting MCP tools metadata. !!ENOT!!");
     res.json({ tools });
 });
 
@@ -100,7 +100,13 @@ app.post("/reverseString", (req, res) => {
 app.post("/sayHello", (req, res) => {
     console.log("sayHello function called");
     res.json({
-        content: "MCP is awesome!"
+        tools: [
+            {
+                name: "sayHello",
+                parameters: {},
+                result: "MCP is awesome!"
+            }
+        ]
     });
 });
 
