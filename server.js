@@ -42,11 +42,15 @@ app.post("/bridge", (req, res) => {
 
 // Handler for calculateSum
 app.post("/calculateSum", (req, res) => {
+  console.log(`calculateSum function called`);
+  
     const { num1, num2 } = req.body;
 
     // Validate inputs
     if (typeof num1 !== "number" || typeof num2 !== "number") {
-        return res.status(400).json({ error: "Invalid input. num1 and num2 must be numbers." });
+      console.log(`invalid inpur!!!!!`);
+        
+      return res.status(400).json({ error: "Invalid input. num1 and num2 must be numbers." });
     }
 
     const result = num1 + num2;
@@ -59,10 +63,14 @@ app.post("/calculateSum", (req, res) => {
 
 // Handler for reverseString
 app.post("/reverseString", (req, res) => {
+  console.log(`reverseString function called`);
+
     const { inputString } = req.body;
 
     // Validate inputs
     if (typeof inputString !== "string") {
+      console.log(`invalid input reverseString function`);
+      
         return res.status(400).json({ error: "Invalid input. inputString must be a string." });
     }
 
