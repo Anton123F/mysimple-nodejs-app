@@ -99,12 +99,19 @@ app.post("/reverseString", (req, res) => {
 // Handler for sayHello (no arguments, returns a constant value)
 app.post("/sayHello", (req, res) => {
     console.log("sayHello function called");
+
+    // Return a response with all required fields
     res.json({
         tools: [
             {
-                name: "sayHello",
-                parameters: {},
-                result: "MCP is awesome!"
+                name: "sayHello",         // Tool name
+                parameters: {},          // Input parameters (empty for now)
+                result: "MCP is awesome!", // Result of the tool execution
+                required: [],            // Any required parameters for the tool
+                content: {               // The content field as expected in the MCPToolInvocationResponse schema
+                    message: "Hello, World!",
+                    note: "This is the response from sayHello tool."
+                }
             }
         ]
     });
