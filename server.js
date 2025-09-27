@@ -47,30 +47,33 @@ const tools = [
 
 // Handler for /bridge endpoint
 app.post("/bridge", (req, res) => {
-    console.log("CodeMie is requesting MCP tools metadata. !!ENOT!!");
+    console.log("CodeMie is requesting MCP tools metadata.");
     res.json({ tools });
 });
 
 // Handler for calculateSum
 app.post("/calculateSum", (req, res) => {
-  console.log(`calculateSum function called`);
-  
+    console.log(`calculateSum function called`);
+
     const { num1, num2 } = req.body;
 
     // Validate inputs
     if (typeof num1 !== "number" || typeof num2 !== "number") {
-      console.log(`invalid inpur!!!!!`);
-        
-      return res.status(400).json({ error: "Invalid input. num1 and num2 must be numbers." });
+        console.log(`Invalid input for calculateSum!`);
+        return res.status(400).json({
+            content: {
+                error: "Invalid input. num1 and num2 must be numbers."
+            }
+        });
     }
 
     const result = num1 + num2;
     console.log(`Calculated sum: ${result}`);
     res.json({
-      content: {
-          result,
-          message: `The sum of ${num1} and ${num2} is ${result}.`
-      }
+        content: {
+            result,
+            message: `The sum of ${num1} and ${num2} is ${result}.`
+        }
     });
 });
 
@@ -80,43 +83,51 @@ app.post("/reverseString", (req, res) => {
 
     const { inputString } = req.body;
 
+    // Validate input
     if (typeof inputString !== "string") {
-        console.log(`Invalid input reverseString function`);
+        console.log(`Invalid input for reverseString!`);
         return res.status(400).json({
-            content: "Invalid input. inputString must be a string."
+            content: {
+                error: "Invalid input. inputString must be a string."
+            }
         });
     }
 
     const reversedString = inputString.split("").reverse().join("");
     console.log(`Reversed string: ${reversedString}`);
 
-    // Return string as content value
+    // Return response with reversed string
     res.json({
-        content: reversedString
+        content: {
+            result: reversedString,
+            message: `The reversed string is: ${reversedString}`
+        }
     });
 });
 
-// Handler for sayHello (no arguments, returns a constant value)
+// Handler for sayHello
 app.post("/sayHello", (req, res) => {
     console.log("sayHello function called");
 
-    // Return a response with all required fields
+    // Return a structured response matching MCPToolInvocationResponse schema
     res.json({
-        tools: [
-            {
-                name: "sayHello",         // Tool name
-                parameters: {},          // Input parameters (empty for now)
-                result: "MCP is awesome!", // Result of the tool execution
-                required: [],            // Any required parameters for the tool
-                content: {               // The content field as expected in the MCPToolInvocationResponse schema
-                    message: "Hello, World!",
-                    note: "This is the response from sayHello tool."
-                }
-            }
-        ]
+        content: {
+            message: "Hello, World!",
+            note: "This is the response from sayHello tool."
+        }
     });
 });
 
+// Default fallback handler for unsupported requests
+app.use((req, res) => {
+    console.log(`Fallback handler triggered for unmatched route: ${req.originalUrl}`);
+    res.status(404).json({
+        content: {
+            error: "Requested route is not defined in the MCP server.",
+            note: "Check your request or consult the MCP server documentation for valid routes."
+        }
+    });
+});
 
 // Endpoint for root (to confirm the server is live)
 app.get("/", (req, res) => {
