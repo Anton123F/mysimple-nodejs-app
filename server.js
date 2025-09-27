@@ -56,29 +56,38 @@ app.post("/calculateSum", (req, res) => {
     const result = num1 + num2;
     console.log(`Calculated sum: ${result}`);
     res.json({
-        result,
-        message: `The sum of ${num1} and ${num2} is ${result}.`
+      content: {
+          result,
+          message: `The sum of ${num1} and ${num2} is ${result}.`
+      }
     });
 });
 
 // Handler for reverseString
 app.post("/reverseString", (req, res) => {
-  console.log(`reverseString function called`);
+    console.log(`reverseString function called`);
 
     const { inputString } = req.body;
 
     // Validate inputs
     if (typeof inputString !== "string") {
-      console.log(`invalid input reverseString function`);
-      
-        return res.status(400).json({ error: "Invalid input. inputString must be a string." });
+        console.log(`Invalid input reverseString function`);
+        return res.status(400).json({
+            content: {
+                error: "Invalid input. inputString must be a string."
+            }
+        });
     }
 
     const reversedString = inputString.split("").reverse().join("");
     console.log(`Reversed string: ${reversedString}`);
+    
+    // Correctly formatted response
     res.json({
-        result: reversedString,
-        message: `The reverse of "${inputString}" is "${reversedString}".`
+        content: {
+            result: reversedString,
+            message: `The reverse of "${inputString}" is "${reversedString}".`
+        }
     });
 });
 
