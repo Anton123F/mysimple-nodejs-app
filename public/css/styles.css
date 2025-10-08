@@ -1,0 +1,54 @@
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+/* Gallery container */
+.gallery-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+/* Preview list styles */
+.preview-list {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+img {
+  display: block;
+  width: 120px;
+  height: auto;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.preview-list img:hover {
+  transform: scale(1.1);
+  border-color: #007BFF;
+}
+
+/* Full-size image container */
+.full-size-container {
+  text-align: center;
+}
+
+.full-size-container img {
+  max-width: 40%;
+  height: auto;
+  border: 2px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.external-link {
+  margin: 10px;
+  font-size: 16px;
+  color: #333;
+}
